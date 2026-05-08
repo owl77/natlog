@@ -262,4 +262,128 @@ def lq(term):
  aux2 = BLparser.formtest("forall " + var + "." + aux)
  return makelambda(term.operator.variables[1:], aux2)
 
+def nicebound(term):
+ bounds = GetBindVars(term) + GetFreeVars(term,"Term")
+ newvars = [x for x in BLparser.variables if not x in bounds ]
+ oldbinds = term.operator.variables
+ if len(newvars) >= len(oldbinds):
+  aux = copy.deepcopy(term)
+  for i in range(0,len(oldbinds)):
+   aux = BoundVariableChange(aux, oldbinds[i].name, newvars[i])
+  return aux
+ return term
+
+def BealerWeaver(l,input):
+ #input must be a list of sets
+ if not weavers.isListOfSets(input) or weavers.isListOfLists(input):
+  return None
+ if not weavers.uniqueList(l):
+   return None 
+ aux = []
+ seq = []
+ for group in input:
+  aux = aux + [s for s in l if s in group]
+  seq = seq + [len([s for s in l if s in group])]
+ aux2 = weavers.canonicalWeaver(aux,l)
+ return {"weaver": aux2, "list" : aux, "partition": weavers.sequenceToPartition(list(range(0,len(aux2[0]))),seq)}
+ #input defines an order partition on the canonical weaver. Clearly aux2 is without this partition.
+
+ 
+def isPrimitive(term):
+ if len(term.operator.variables) != len(term.children[0].children):
+  return False 
+ for i in range(0, len(term.operator.variables)):
+    if not type(term.children[0].children[i]).__name__ =="Leaf":
+     return False 
+    if term.children[0].children[i].name != term.operator.variables[i].name:
+     return False 
+ return True 
+
+
+def BealerStep(term):
+ if type(term).__name__ == "Leaf":
+  return term
+ if type(term.children[0]).__name__ =="Leaf":
+   return term
+ if isPrimitive(term):
+  return term
+   
+ if term.children[0].operator.name not in ["lambda", "forall", "neg", "&"]:
+  args = term.operator.variables
+  varl = []
+  newvarl = []
+  arity = len(term.children[0].children)
+  primitive = term.children[0].operator 
+  for t in term.children[0].children:
+   varl.append([v for v in args if v in getFreeVars(t,"Term")])
+  for i in range(0,arity): 
+   newvarl.append( varl[i] + term.children[0].children.operator.variables)
+  seq = weavers.listUnion(varl)
+  bw = BealerWeaver(args, seq)
+  newterms = []
+  for s in range(0,arity):
+   newterms.append(makelambda(newvarl[i],term.children[0].children[i].children[0]   ))
+  head = copy.deepcopy(term)
+  head.operator.variables = head.operator.variables[0:arity]
+  head.children[0].children = head.operator.variables 
+  return [head, newterms]
+  #case for neg, &, forall and lambda .x and lambda x.x 
+
+
+
+def Numeric(ast,n):
+ if type(ast).__name__=="Leaf":
+  return ast
+ else:
+  if ast.operator.name in ["exists"]:
+   var = ast.operator.variable.name
+   ast.operator.variable.name = str(n)
+   aux = VarSubstitution(Free(ast.children[0],[]), var, str(n)) 
+   ast.children = [Numeric(aux, n+1)]
+   return ast
+  if ast.operator.name in ["lambda"]:
+   b = len(ast.operator.variables)
+   newv = ast.operator.variables
+   body = ast.children[0]
+   for j in range(0,b):
+    
+    body = VarSubstitution(Free(body,[]), ast.operator.variables[j].name, str(n+j))
+    newv[j].name = str(n+j)
+   body2 = Numeric(body,n+j)
+   return makelambda(newv, body2)
+  else:
+   aux = [Numeric(x,n) for x in ast.children]
+   ast.children = aux
+   return ast
+
+def FastEquals(ast1,ast2):
+    if type(ast1).__name__=="Leaf":
+      if type(ast2).__name__=="Leaf":
+        return ast1.name == ast2.name
+    else:
+     if type(ast2).__name__=="Constructor":      
+       if ast1.operator.name != ast2.operator.name:
+           return False
+       if len(ast1.children)!= len(ast2.children):
+           return False
+       for x in range(0,len(ast1.children)):
+          if not FastEquals(ast1.children[x], ast2.children[x]):
+              return False      
+       return True
+     return False
+         
+
+def Equals(ast1,ast2):
+  a1 = copy.deepcopy(ast1)
+  a2 = copy.deepcopy(ast2)    
+  aux1 = Numeric(a1,0)
+  aux2 = Numeric(a2,0)
+  
+  #return parser.TruePrintout(aux1) == parser.TruePrintout(aux2)
+  return FastEquals(aux1,aux2)
+
+ 
+
+
+
 

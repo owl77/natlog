@@ -536,7 +536,22 @@ def oDot(w,l):
 
 
  
- 
+def sequenceToPartition(l,s):
+ if not type(l).__name__ =="list"  or not type(s).__name__== "list":
+  return None
+ for i in range(0, len(s)):
+  if not type(s[i]).__name__ =="int":
+    return None
+  if i < 0:
+    return None
+ if not sumList(s) == len(l):
+   return None
+ if len(s) == 0:
+   return [[]]
+ if len(s) == 1:
+   return [l]
+ return [l[0:s[0]]] + sequenceToPartition(l[s[0]:], s[1:])
+
 
    
 
