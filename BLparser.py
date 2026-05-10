@@ -209,6 +209,11 @@ def ArityToTypes(n):
 MultiVariableParser = Star(Simple(variables, "Term"), [","])
 
 
+def MakeVariables(list):
+ aux = ','.join(list)
+ return Star(Simple(list, "Term"), [","])(aux)
+
+
 #better def MultiBinderParser(multibinders, variablelistparser)
 
 def MultiBinderParser():
@@ -256,6 +261,11 @@ def MultiBinderExp(parser):
 def Term(exp): 
  if len(exp) == 1 and exp[0] in variables:
     return Simple(variables,"Term")(exp)
+ if len(exp) == 3:
+  if exp[1] == "." and exp[2] in variables:
+   aux = Leaf("lambda", "Term")
+   aux.variables = []
+   return Constructor(aux, "Term", [Term(exp[2:])]) 
  if exp[0] =="lambda":
      aux= MultiBinderExp(Formula)(exp)
      if aux!=None:

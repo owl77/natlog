@@ -274,8 +274,8 @@ def nicebound(term):
  return term
 
 def BealerWeaver(l,input):
- #input must be a list of sets
- if not weavers.isListOfSets(input) or weavers.isListOfLists(input):
+ #input must be a list of sets or lists
+ if not ( weavers.isListOfSets(input) or weavers.isListOfLists(input)):
   return None
  if not weavers.uniqueList(l):
    return None 
@@ -300,7 +300,10 @@ def isPrimitive(term):
  return True 
 
 
-def BealerStep(term):
+
+
+def preBealer(term):
+ 
  if type(term).__name__ == "Leaf":
   return term
  if type(term.children[0]).__name__ =="Leaf":
@@ -308,27 +311,57 @@ def BealerStep(term):
  if isPrimitive(term):
   return term
    
- if term.children[0].operator.name not in ["lambda", "forall", "neg", "&"]:
+ if term.children[0].operator.name not in ["forall", "neg", "&"]:
+  if type(term.children[0]).__name__=="Leaf":
+    return term 
   args = term.operator.variables
   varl = []
   newvarl = []
   arity = len(term.children[0].children)
   primitive = term.children[0].operator 
   for t in term.children[0].children:
-   varl.append([v for v in args if v in getFreeVars(t,"Term")])
+   varl.append([v for v in args if v.name in GetFreeVars(Free(t,[]),"Term")])
   for i in range(0,arity): 
-   newvarl.append( varl[i] + term.children[0].children.operator.variables)
+   if not type(term.children[0].children[i]).__name__=="Leaf":
+    newvarl.append( varl[i] + term.children[0].children[i].operator.variables)
+   
+    
   seq = weavers.listUnion(varl)
-  bw = BealerWeaver(args, seq)
+  bw = BealerWeaver([x.name for x in args], [[x.name for  x in y] for y in varl])
+ 
   newterms = []
   for s in range(0,arity):
-   newterms.append(makelambda(newvarl[i],term.children[0].children[i].children[0]   ))
+   newterms.append(makelambda(newvarl[s],term.children[0].children[s].children[0]   ))
   head = copy.deepcopy(term)
-  head.operator.variables = head.operator.variables[0:arity]
-  head.children[0].children = head.operator.variables 
-  return [head, newterms]
+  aux = BLparser.MakeVariables(BLparser.variables[0:arity])
+  head.operator.variables = aux
+  head.children[0].children = aux
+  selector = [len(x) for x in varl]
+  return [bw, selector, head, newterms]
   #case for neg, &, forall and lambda .x and lambda x.x 
 
+ if term.children[0].operator.name in ["&"]:
+  args = term.operator.variables
+  varl = []
+  
+  arity = 2
+  primitive = term.children[0].operator 
+  for t in term.children[0].children:
+   varl.append([v for v in args if v.name in GetFreeVars(Free(t,[]),"Term")])
+ 
+  seq = weavers.listUnion(varl)
+  bw = BealerWeaver([x.name for x in args], [[x.name for  x in y] for y in varl])
+  newterms = []
+  for s in range(0,arity):
+   newterms.append(makelambda(varl[s],term.children[0].children[s]))
+  return [bw, newterms]
+ if term.children[0].operator.name in ["forall"]:
+  y = term.children[0].operator.variable 
+  oldvars = term.operator.variables 
+  newvars = [y] + oldvars 
+  body = term.children[0].children[0]
+  return makelambda(newvars, body)
+ return Term
 
 
 def Numeric(ast,n):
