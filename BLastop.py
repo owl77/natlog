@@ -168,8 +168,6 @@ def MultiSub(form,oldnamelist,newtermlist):
   aux = Substitution(form,BLparser.Term(BLtokenizer.Tokenize(oldnamelist[k])) , newtermlist[k])
  return aux      
 
-
-
 def matrixlambdaboundchange(termlist):
  i = 0
  used = []
@@ -184,9 +182,6 @@ def matrixlambdaboundchange(termlist):
      if v.name in used:
        newname = v.name + str(i)
        BLparser.variables.append(newname)
-       
-       
-       
        
        h= BoundVariableChange(h, v.name, newname)
        
@@ -300,6 +295,24 @@ def isPrimitive(term):
  return True 
 
 
+def isVariableLambda(term):
+ if type(term).__name__ == "Leaf":
+  if term.name in BLparser.variables:
+   return True 
+ if term.operator.name=="lambda":
+  if len(term.operator.variables)== 0 and type(term.children[0]).__name__=="Leaf":
+   if term.children[0].name in BLparser.variables: 
+    return True 
+ return False 
+
+def isVariabeList(termlist):
+ for t in termlist: 
+  if not isVariableLambda(t):
+   return False 
+ return True 
+
+
+
 
 
 def preBealer(term):
@@ -337,8 +350,13 @@ def preBealer(term):
   head.operator.variables = aux
   head.children[0].children = aux
   selector = [len(x) for x in varl]
-  return [bw, selector, head, newterms]
-  #case for neg, &, forall and lambda .x and lambda x.x 
+  if not isListVariable(term.children[0].children):
+
+   return [bw, selector, head, newterms]
+  else:
+   return [bw, head]
+   #check if bw is trivial
+  
 
  if term.children[0].operator.name in ["&"]:
   args = term.operator.variables
@@ -363,6 +381,18 @@ def preBealer(term):
   return makelambda(newvars, body)
  return Term
 
+
+
+
+def PrimitivesToBL():
+  BLparser.predicates = {}
+  for p in ntl.Primitives.keys():
+   BLparser.predicates[p] = {"sourcetypes":weavers.listPot("Term", ntl.Primitives[p]),"targettype":"Formula","prefix": False}
+  return 
+  
+
+
+#the following may be useful in the future
 
 def Numeric(ast,n):
  if type(ast).__name__=="Leaf":
