@@ -8,7 +8,7 @@ print("NTL term reduction assistant")
 print()
 print("2026 Clarence Lewis Protin")
 print()
-print("Commands: ShowPrimitive, AddPrimitives, StartTerm, S, Red, T, Reset")
+print("Commands: ShowPrimitives, AddPrimitives, StartTerm, S, Red, T, Reset")
 print()
 
 def disp(s):
