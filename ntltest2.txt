@@ -1,0 +1,142 @@
+PS C:\Users\cprot\natlog> python -i reductions.py
+
+NTL term reduction assistant
+
+2026 Clarence Lewis Protin
+
+Commands: ShowPrimitives, AddPrimitives, StartTerm, S, Red, T, Reset
+
+>>> StartTerm("Pi (1,1,2) Up {1,4}{2}{3} Pi (1,3) Pi (1,1) C D D D D C B C")
+Term: Pi(1,1,2) Up{1,4}{2}{3} Pi(1,3) Pi(1,1) C D D D D C B C
+>>> S()
+Reducible subterms of: Pi(1,1,2) Up{1,4}{2}{3} Pi(1,3) Pi(1,1) C D D D D C B C
+
+Pi(1,1,2) Up{1,4}{2}{3} Pi(1,3) Pi(1,1) C D D D D C B C => 0   RUp
+Up{1,4}{2}{3} Pi(1,3) Pi(1,1) C D D D D => 1   PPi
+Pi(1,3) Pi(1,1) C D D D D => 2   RPi
+>>> Red("RPi",2)
+Reducible subterms of: Pi(1,1,2) Up{1,4}{2}{3} Pi(1,3) C Pi(1,1,1,1,1) D D I I I I Pi(3,1,1,1,1) D D I I I I C B C
+
+Pi(1,1,2) Up{1,4}{2}{3} Pi(1,3) C Pi(1,1,1,1,1) D D I I I I Pi(3,1,1,1,1) D D I I I I C B C => 0   RUp
+Up{1,4}{2}{3} Pi(1,3) C Pi(1,1,1,1,1) D D I I I I Pi(3,1,1,1,1) D D I I I I => 1   PPi
+>>> Red("RUp",0)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,1,2,1) Pi(1,3) C Pi(1,1,1,1,1) D D I I I I Pi(3,1,1,1,1) D D I I I I C B C C
+
+Pi(1,1,2,1) Pi(1,3) C Pi(1,1,1,1,1) D D I I I I Pi(3,1,1,1,1) D D I I I I C B C C => 1   RPi
+>>> Red("RPi",0)
+>>> Red("RPi",1)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) Pi(1,1,1,1,1) D D I I I I C I I I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) Pi(1,1,1,1,1) D D I I I I C I I I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 0   PPi
+Pi(1,1,1,1,1) Pi(1,1,1,1,1) D D I I I I C I I I I => 3   RPi
+Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 16   RPi
+>>> Red("RPi",3)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 0   PPi
+Pi(1) I I => 12   RI
+Pi(1) I I => 15   RI
+Pi(1) I I => 18   RI
+Pi(1) I I => 21   RI
+Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 24   RPi
+>>> Red("RI",12)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 0   PPi
+Pi(1) I I => 13   RI
+Pi(1) I I => 16   RI
+Pi(1) I I => 19   RI
+Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 22   RPi
+>>> Red("RI",13)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I Pi(1) I I Pi(1) I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I Pi(1) I I Pi(1) I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 0   PPi
+Pi(1) I I => 14   RI
+Pi(1) I I => 17   RI
+Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 20   RPi
+>>> Red("RI",14)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I Pi(1) I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I Pi(1) I I Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 0   PPi
+Pi(1) I I => 15   RI
+Pi(1,2,1,1,1,1,1) Pi(3,1,1,1,1) D D I I I I B C C I I I I => 18   RPi
+>>> Red("RPi",18)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I Pi(1) I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1) I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I Pi(1) I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1) I I => 0   PPi
+Pi(1) I I => 15   RI
+Pi(1) I I => 27   RI
+Pi(1) I I => 30   RI
+Pi(1) I I => 33   RI
+Pi(1) I I => 36   RI
+>>> Red("RI",15)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1) I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I Pi(1) I I Pi(1) I I Pi(1) I I Pi(1) I I => 0   PPi
+Pi(1) I I => 25   RI
+Pi(1) I I => 28   RI
+Pi(1) I I => 31   RI
+Pi(1) I I => 34   RI
+>>> Red("RI",25)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I Pi(1) I I Pi(1) I I Pi(1) I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I Pi(1) I I Pi(1) I I Pi(1) I I => 0   PPi
+Pi(1) I I => 26   RI
+Pi(1) I I => 29   RI
+Pi(1) I I => 32   RI
+>>> Red("RI",26)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I Pi(1) I I Pi(1) I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I Pi(1) I I Pi(1) I I => 0   PPi
+Pi(1) I I => 27   RI
+Pi(1) I I => 30   RI
+>>> Red("RI",27)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I I Pi(1) I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I I Pi(1) I I => 0   PPi
+Pi(1) I I => 28   RI
+>>> Red("RI",28)
+Reducible subterms of: Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I I I
+
+Up{1,5}{2}{3}{4} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I I I => 0   PPi
+>>> Red("PPi",0)
+Reducible subterms of: Up{1,2}{3}{4}{5} Pi(1,4) C Up{1}{2}{3}{4}{5} Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Up{4}{1}{2}{3}{5}{6}{7}{8} Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I I I
+
+Up{1}{2}{3}{4}{5} Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I => 3   UpId
+Up{4}{1}{2}{3}{5}{6}{7}{8} Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I I I => 17   PPi
+>>> Red("UpId",3)
+Reducible subterms of: Up{1,2}{3}{4}{5} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Up{4}{1}{2}{3}{5}{6}{7}{8} Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I I I
+
+Up{4}{1}{2}{3}{5}{6}{7}{8} Pi(4,1,1,1,1) D Pi(1,2,1,1,1) D B C C I I I I I I => 16   PPi
+>>> Red("PPi",16)
+Reducible subterms of: Up{1,2}{3}{4}{5} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I Up{1} I Up{1} I Up{1} I Up{1} I
+
+Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I Up{1} I Up{1} I Up{1} I Up{1} I => 16   UpId
+Up{1} I => 27   UpId
+Up{1} I => 29   UpId
+Up{1} I => 31   UpId
+Up{1} I => 33   UpId
+>>> Red("UpId",27)
+Reducible subterms of: Up{1,2}{3}{4}{5} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I I Up{1} I Up{1} I Up{1} I
+
+Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I I Up{1} I Up{1} I Up{1} I => 16   UpId
+Up{1} I => 28   UpId
+Up{1} I => 30   UpId
+Up{1} I => 32   UpId
+>>> Red("UpId",28)
+Reducible subterms of: Up{1,2}{3}{4}{5} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I I I Up{1} I Up{1} I
+
+Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I I I Up{1} I Up{1} I => 16   UpId
+Up{1} I => 29   UpId
+Up{1} I => 31   UpId
+>>> Red("UpId",29)
+Reducible subterms of: Up{1,2}{3}{4}{5} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I I I I Up{1} I
+
+Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I I I I Up{1} I => 16   UpId
+Up{1} I => 30   UpId
+>>> Red("UpId",30)
+Reducible subterms of: Up{1,2}{3}{4}{5} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I I I I I
+
+Up{1}{2}{3}{4}{5}{6}{7}{8} Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I I I I I => 16   UpId
+>>> Red("UpId",16)
+Reducible subterms of: Up{1,2}{3}{4}{5} Pi(1,4) C Pi(1,1,1,1,1) D Pi(1,1,1,1,1) D C I I I I I I I I Pi(4,1,1,1,1) D Up{4}{1}{2}{3}{5}{6} Pi(1,2,1,1,1) D B C C I I I I I I
