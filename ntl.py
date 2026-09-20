@@ -256,6 +256,11 @@ def parserPi(l,par):
    for i in range(0,n):
     if param[i] > valency(aux[1][i+1]):
      return None
+#correction 
+   if type(aux[1][0]).__name__ == "PrimitiveTerm":
+    if aux[1][0].name == 'I':
+      if param[0] == 0:
+        return None
    return ConstructedTerm("Pi", param, aux[1])
  return None
 
