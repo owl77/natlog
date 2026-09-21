@@ -116,7 +116,11 @@ def RPi(ast):
   aux2 = aux2 + [aux[i] + listPotPrimitive("I",1, r[i])]
  aux3 = []
  for i in range(0,len(s)):
-  aux3 = aux3 + [ntl.ConstructedTerm("Pi", a[1][i][1], [T[i]] + aux2[i])]
+   if type(ast.args[0][1+i]).__name__ == "PrimitiveTerm":
+    if ast.args[0][1+i].name == 'I':      
+     aux3 = aux3 + aux2[i]    
+   else:
+    aux3 = aux3 + [ntl.ConstructedTerm("Pi", a[1][i][1], [T[i]] + aux2[i])]
  return ntl.ConstructedTerm("Pi", a[0][1], [ast.args[0].args[0]] + aux3)
 
 def RPiRed(ast,pos):
@@ -165,11 +169,11 @@ def RUpRed(ast,pos):
    return ntl.substitution(ast,aux2,pos)
 
 def checkRI(ast):
- if type(ast).__name__=="ConstructedTerm":
-  if ast.constructor == "Pi":
-    if len(ast.args) == 2 and type(ast.args[0]).__name__=="PrimitiveTerm":
-     if ast.args[0].name =="I":
-       return True
+ #if type(ast).__name__=="ConstructedTerm":
+ # if ast.constructor == "Pi":
+  #  if len(ast.args) == 2 and type(ast.args[0]).__name__=="PrimitiveTerm":
+   #  if ast.args[0].name =="I":
+    #   return True
  if type(ast).__name__ == "PrimitiveTerm":
   return False
  if ast.constructor!="Pi":
