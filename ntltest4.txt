@@ -1,0 +1,68 @@
+
+>>> StartTerm("Pi (1,2) Up {2}{1} Pi (1,1) Up {2}{1} C E E D Up {1,2}{3} E")
+Term: Pi(1,2) Up{2}{1} Pi(1,1) Up{2}{1} C E E D Up{1,2}{3} E
+>>> S()
+Reducible subterms of: Pi(1,2) Up{2}{1} Pi(1,1) Up{2}{1} C E E D Up{1,2}{3} E
+
+Pi(1,2) Up{2}{1} Pi(1,1) Up{2}{1} C E E D Up{1,2}{3} E => 0   RUp
+Pi(1,1) Up{2}{1} C E E => 2   RUp
+>>> Red("RUp", 0)
+Reducible subterms of: Up{3}{1}{2} Pi(2,1) Pi(1,1) Up{2}{1} C E E Up{1,2}{3} E D
+
+Pi(2,1) Pi(1,1) Up{2}{1} C E E Up{1,2}{3} E D => 1   RPi
+Pi(1,1) Up{2}{1} C E E => 2   RUp
+>>> Red("RPi", 1)
+Reducible subterms of: Up{3}{1}{2} Pi(2,1) Up{2}{1} C Pi(2,1,1) E Up{1,2}{3} E I I Pi(1,1,1) E D I I
+
+Pi(2,1) Up{2}{1} C Pi(2,1,1) E Up{1,2}{3} E I I Pi(1,1,1) E D I I => 1   RUp
+>>> Red("RUp", 1)
+Reducible subterms of: Up{3}{1}{2} Up{2}{3}{1} Pi(1,2) C Pi(1,1,1) E D I I Pi(2,1,1) E Up{1,2}{3} E I I
+
+Up{3}{1}{2} Up{2}{3}{1} Pi(1,2) C Pi(1,1,1) E D I I Pi(2,1,1) E Up{1,2}{3} E I I => 0   CUp
+>>> Red("CUp", 0)
+Reducible subterms of: Up{1}{2}{3} Pi(1,2) C Pi(1,1,1) E D I I Pi(2,1,1) E Up{1,2}{3} E I I
+
+Up{1}{2}{3} Pi(1,2) C Pi(1,1,1) E D I I Pi(2,1,1) E Up{1,2}{3} E I I => 0   UpId
+>>> Red("UpId", 0)
+Reducible subterms of: Pi(1,2) C Pi(1,1,1) E D I I Pi(2,1,1) E Up{1,2}{3} E I I
+
+>>> exit
+
+C:\Users\cprot\Desktop\natlog>python -i reductions.py
+
+NTL term reduction assistant
+
+2026 Clarence Lewis Protin
+
+Commands: ShowPrimitives, AddPrimitives, StartTerm, S, Red, T, Reset
+
+>>> StartTerm("Pi (1,2) Up {2}{1} Pi (1,1) Up {2}{1} C E E D Up {1,2}{3} E")
+Term: Pi(1,2) Up{2}{1} Pi(1,1) Up{2}{1} C E E D Up{1,2}{3} E
+>>> S()
+Reducible subterms of: Pi(1,2) Up{2}{1} Pi(1,1) Up{2}{1} C E E D Up{1,2}{3} E
+
+Pi(1,2) Up{2}{1} Pi(1,1) Up{2}{1} C E E D Up{1,2}{3} E => 0   RUp
+Pi(1,1) Up{2}{1} C E E => 2   RUp
+>>> Red("RUp", 2)
+Reducible subterms of: Pi(1,2) Up{2}{1} Up{2}{1} Pi(1,1) C E E D Up{1,2}{3} E
+
+Pi(1,2) Up{2}{1} Up{2}{1} Pi(1,1) C E E D Up{1,2}{3} E => 0   RUp
+Up{2}{1} Up{2}{1} Pi(1,1) C E E => 1   CUp
+>>> Red("CUp", 1)
+Reducible subterms of: Pi(1,2) Up{1}{2} Pi(1,1) C E E D Up{1,2}{3} E
+
+Pi(1,2) Up{1}{2} Pi(1,1) C E E D Up{1,2}{3} E => 0   RUp
+Up{1}{2} Pi(1,1) C E E => 1   UpId
+>>> Red("RUp", 0)
+Reducible subterms of: Up{1}{2}{3} Pi(1,2) Pi(1,1) C E E D Up{1,2}{3} E
+
+Up{1}{2}{3} Pi(1,2) Pi(1,1) C E E D Up{1,2}{3} E => 0   UpId
+Pi(1,2) Pi(1,1) C E E D Up{1,2}{3} E => 1   RPi
+>>> Red("RPi", 1)
+Reducible subterms of: Up{1}{2}{3} Pi(1,2) C Pi(1,1,1) E D I I Pi(2,1,1) E Up{1,2}{3} E I I
+
+Up{1}{2}{3} Pi(1,2) C Pi(1,1,1) E D I I Pi(2,1,1) E Up{1,2}{3} E I I => 0   UpId
+>>> Red("UpId", 0)
+Reducible subterms of: Pi(1,2) C Pi(1,1,1) E D I I Pi(2,1,1) E Up{1,2}{3} E I I
+
+>>>
