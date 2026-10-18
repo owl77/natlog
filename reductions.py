@@ -118,7 +118,7 @@ def RPi(ast):
  aux3 = []
  for i in range(0,len(s)):
    if s[i] == 0:
-    aux3 = aux3 + T[i]
+    aux3 = aux3 + [T[i]]
     continue
    if type(ast.args[0].args[1+i]).__name__ == "PrimitiveTerm":
     if ast.args[0].args[1+i].name == 'I':      
