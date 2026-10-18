@@ -211,7 +211,7 @@ def parserLaParam(p):
 def parserLqParam(p):
  return parserPosInt(p)
 
-Primitives = {"I":1, "A":0, "B": 1, "C":2, "D":5, "E":3 }
+Primitives = {"I":1}
 
 def parserPrimitiveTerm(l):
   if not type(l)==list:
