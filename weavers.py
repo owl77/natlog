@@ -428,7 +428,7 @@ def listDiv(s,n):
  if not sumList(n) == len(s):
    return None
  if len(s) == 0:
-   return s
+   return [[]]
  if len(n) == 1:
   return [s]
  else:
