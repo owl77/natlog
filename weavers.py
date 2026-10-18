@@ -406,7 +406,7 @@ def sumList(s):
   if not type(x) == int:
      return None
  if len(s) == 0: 
-   return None
+   return 0
  if len(s) == 1:
   return s[0]
  return s[0] + sumList(s[1:len(s)])
